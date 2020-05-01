@@ -1,0 +1,10 @@
+/bin/
+/build/
+/META-INF/
+/OSGI-INF/
+/build.properties
+/builder.xml
+/junitresources/
+/lib/
+/schema/
+/srctest/

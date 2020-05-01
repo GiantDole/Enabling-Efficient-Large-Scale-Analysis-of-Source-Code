@@ -18,6 +18,17 @@ public abstract class DirectoryData {
 	
 	protected String edgeLabel;
 	
+//	/**
+//	 * is the property of every file in the file variable
+//	 * prevents creating a property instance for every directory, although a complete hierarchy level has the same one
+//	 */
+//	protected PropertyFormatter nextProperty;
+//	
+//	/**
+//	 * see Description of PropertyFormatter
+//	 */
+//	protected ConnectedOrder nextOrder;
+	
 	//public abstract List<DirectoryData> getLastFiles();
 
 	
@@ -59,4 +70,6 @@ public abstract class DirectoryData {
 	{
 		return thisFile.getAbsolutePath();
 	}
+	
+	public abstract void debugDirectoryTree(int round);
 }

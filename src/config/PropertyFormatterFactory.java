@@ -1,15 +1,15 @@
 package config;
 
-public class PropertyFactory {
+public class PropertyFormatterFactory {
 	
 	public static PropertyFormatter selectFormatter(String input)
 	{
 		switch(input)
 		{
-		//case "submission":
+		//case "SUBMISSION":
 		//	return new SubmissionFormatter();
 		default:
-			return new StandardFormatter(input);
+			return new StandardPropertyFormatter(input);
 		}
 	}
 }

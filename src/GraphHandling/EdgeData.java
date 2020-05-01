@@ -2,8 +2,6 @@ package GraphHandling;
 
 import java.util.List;
 
-import dao.AttributePair;
-
 public class EdgeData{
 
 	private List<AttributePair> attributePairs;

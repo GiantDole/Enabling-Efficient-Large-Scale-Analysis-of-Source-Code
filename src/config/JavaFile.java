@@ -10,6 +10,10 @@ public class JavaFile extends DirectoryData{
 		super(f);
 	}
 
+	@Override
+	public void debugDirectoryTree(int round) {
+	}
+
 //	@Override
 //	public List<DirectoryData> getLastFiles() {
 //		// TODO Auto-generated method stub

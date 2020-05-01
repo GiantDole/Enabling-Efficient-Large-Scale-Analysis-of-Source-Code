@@ -2,9 +2,9 @@ package database;
 
 import java.util.List;
 
+import GraphHandling.AttributePair;
 import GraphHandling.EdgeData;
 import GraphHandling.VertexData;
-import dao.AttributePair;
 
 //TODO make a DAO interface for different objects
 public interface DatabaseQueryBuilder {

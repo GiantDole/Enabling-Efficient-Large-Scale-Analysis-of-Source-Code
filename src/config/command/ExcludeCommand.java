@@ -1,8 +1,11 @@
 package config.command;
 
+import java.io.File;
+
 public class ExcludeCommand {
 
 	private String path;
+	private File file;
 	
 	public ExcludeCommand()
 	{
@@ -15,12 +18,18 @@ public class ExcludeCommand {
 
 	public void setPath(String path) {
 		this.path = path;
+		file = new File(path);
+	}
+	
+	public File getFile()
+	{
+		return file;
 	}
 	
 	public boolean checkValidity()
 	{
 		if(path == null)
-			return true;
-		return false;
+			return false;
+		return true;
 	}
 }

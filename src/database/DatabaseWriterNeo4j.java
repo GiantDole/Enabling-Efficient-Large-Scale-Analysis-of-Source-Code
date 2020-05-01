@@ -5,12 +5,14 @@ import java.util.List;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 import org.neo4j.driver.TransactionWork;
+import org.neo4j.driver.exceptions.ServiceUnavailableException;
+import org.neo4j.driver.exceptions.TransientException;
 
 public class DatabaseWriterNeo4j extends DatabaseWriter{
 
-	private static String uri;
-	private static String password;
-	private static String user;
+//	private static String uri;
+//	private static String password;
+//	private static String user;
 	private DatabaseConnectorNeo4j connector;
 	
 //	public DatabaseWriterNeo4j(String uri, String user, String password, CommandBroker broker)
@@ -22,18 +24,18 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 //		this.broker = broker;
 //	}
 	
-	public DatabaseWriterNeo4j(CommandBroker broker)
+	public DatabaseWriterNeo4j(CommandBroker broker, DatabaseConnector connector)
 	{
-		super(broker);
-		connector =  new DatabaseConnectorNeo4j(uri,user,password);
+		super(broker, connector);
+		this.connector = (DatabaseConnectorNeo4j) connector;
 	}
 	
-	public static void setDatabaseConnection(String uri, String user, String password)
-	{
-		DatabaseWriterNeo4j.uri = uri;
-		DatabaseWriterNeo4j.user = user;
-		DatabaseWriterNeo4j.password = password;
-	}
+//	public static void setDatabaseConnection(String uri, String user, String password)
+//	{
+//		DatabaseWriterNeo4j.uri = uri;
+//		DatabaseWriterNeo4j.user = user;
+//		DatabaseWriterNeo4j.password = password;
+//	}
 	
 	@Override
 	public void writeCommand(String command) {
@@ -89,6 +91,18 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 				
 			});
 		}
+		//network or database problem
+		//driver is no longer able to establish communication
+		catch(ServiceUnavailableException e) 
+		{
+			
+		}
+		//deadlock or memory issue
+		//driver automatically retries this exception
+//		catch(TransientException e)
+//		{
+//			
+//		}
 	}
 	
 	@Override
@@ -99,25 +113,27 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 
 	@Override
 	public void run() {
-		try
-        {
-			String data;
-            //TODO: good condition?
-            while ((data = broker.get()) != null)
-            {
-                //Thread.sleep(1000);
-                //System.out.println("Consumer " + this.name + " processed data from broker: " + data);
-            	if(!data.isEmpty())
-            		writeCommand(data);
-            }
- 
- 
-            //System.out.println("Comsumer " + this.name + " finished its job; terminating.");
-        }
-        catch (InterruptedException ex)
-        {
-            ex.printStackTrace();
-        }
+		List<String> data;
+		//TODO: good condition?
+		try {
+			while ((data = broker.getNextCommandList()) != null)
+			{
+			    //Thread.sleep(1000);
+			    //System.out.println("Consumer " + this.name + " processed data from broker: " + data);
+				if(!data.isEmpty())
+					writeMultipleCommands(data);
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		if(lock != null)
+		{
+			synchronized(lock)
+			{
+				lock.notifyAll();
+			}
+		}
     }
 	
 

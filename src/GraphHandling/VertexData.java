@@ -2,15 +2,13 @@ package GraphHandling;
 
 import java.util.List;
 
-import dao.AttributePair;
-
 public class VertexData{
 
 	private List<AttributePair> attributePairs;
 	private String label;
-	private int id;
+	private long id;
 	
-	public VertexData(String name, List<AttributePair> attributes, int id)
+	public VertexData(String name, List<AttributePair> attributes, long id)
 	{
 		this.label = name;
 		attributePairs = attributes;
@@ -25,7 +23,7 @@ public class VertexData{
 		return label;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

@@ -15,10 +15,11 @@ public class DatabaseFactory {
 		case "neo4j":
 			DatabaseQueryCypher cypher = new DatabaseQueryCypher();
 			CommandBroker broker = new CommandBroker();
-			DatabaseWriterNeo4j.setDatabaseConnection(database.getUri(), database.getUser(), database.getPassword());
+			DatabaseConnectorNeo4j connector = new DatabaseConnectorNeo4j();
+			connector.setConnection(database.getUri(), database.getUser(), database.getPassword());
+			//DatabaseWriterNeo4j.setDatabaseConnection(database.getUri(), database.getUser(), database.getPassword());
 			//DatabaseWriterNeo4j neo4j = new DatabaseWriterNeo4j(database.getUri(), database.getUser(), database.getPassword(), broker);
-			DatabaseThreadController threadPool = new DatabaseThreadController(1);
-			threadPool.execute(DatabaseWriterNeo4j.class, broker);
+			DatabaseThreadController threadPool = new DatabaseThreadController(DatabaseWriterNeo4j.class, broker, connector);
 //			threadPool.execute(new DatabaseWriterNeo4j(broker));
 //			threadPool.execute(new DatabaseWriterNeo4j(broker));
 			

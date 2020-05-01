@@ -3,6 +3,7 @@ package config.command;
 import java.util.LinkedList;
 import java.util.List;
 
+import config.ConnectedOrder;
 import config.Directory;
 import config.PropertyFormatter;
 
@@ -11,10 +12,12 @@ public class NodeCommand {
 	private String label;
 	private String edgeLabel;
 	private String path;
+	private String parent;
 	private PropertyFormatter property;
 	private List<String> filesStartingWith;
-	private String connected;
+	private ConnectedOrder connected;
 	private boolean includedinTree;
+	private boolean containsPrograms;
 	
 	public NodeCommand(boolean included)
 	{
@@ -24,7 +27,16 @@ public class NodeCommand {
 		edgeLabel = null;
 		path = null;
 		property = null;
-		setConnected(null);
+		connected = null;
+		parent = null;
+		containsPrograms = false;
+	}
+	
+	public List<String> getFilesStartingWith()
+	{
+		if(filesStartingWith.isEmpty())
+			return null;
+		return filesStartingWith;
 	}
 	
 	public boolean isIncludedinTree() {
@@ -80,11 +92,11 @@ public class NodeCommand {
 		return true;
 	}
 
-	public String getConnected() {
+	public ConnectedOrder getConnected() {
 		return connected;
 	}
 
-	public void setConnected(String connected) {
+	public void setConnected(ConnectedOrder connected) {
 		this.connected = connected;
 	}
 	
@@ -92,7 +104,7 @@ public class NodeCommand {
 	{
 		dir.setProperty(property);
 		//dir.setInclude(includedinTree);
-		dir.setConnected(connected);
+		dir.addConnectedOrder(connected);
 	}
 	
 	@Override
@@ -102,6 +114,22 @@ public class NodeCommand {
 				+ "label: "+label
 				+ " edgeLabel: "+edgeLabel
 				+ " path: "+path;
+	}
+
+	public String getParent() {
+		return parent;
+	}
+
+	public void setParent(String parent) {
+		this.parent = parent;
+	}
+
+	public boolean getContainsPrograms() {
+		return containsPrograms;
+	}
+
+	public void setContainsPrograms() {
+		this.containsPrograms = true;
 	}
 
 }

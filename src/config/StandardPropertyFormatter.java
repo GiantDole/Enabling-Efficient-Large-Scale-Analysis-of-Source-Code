@@ -3,13 +3,13 @@ package config;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.AttributePair;
+import GraphHandling.AttributePair;
 
-public class StandardFormatter extends PropertyFormatter{
+public class StandardPropertyFormatter extends PropertyFormatter{
 
 	private String propertyKey;
 	
-	public StandardFormatter(String propertyKey)
+	public StandardPropertyFormatter(String propertyKey)
 	{
 		this.propertyKey = propertyKey;
 	}
@@ -17,7 +17,7 @@ public class StandardFormatter extends PropertyFormatter{
 	@Override
 	public List<AttributePair> getProperties(String filename) {
 		List<AttributePair> x = new ArrayList<AttributePair>();
-		x.add(new AttributePair(propertyKey, filename));
+		x.add(new AttributePair(propertyKey, filename, false));
 		return x;
 	}
 

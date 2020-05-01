@@ -13,4 +13,12 @@ public class TopDirectory extends DirectoryData{
 	{
 		return "File: " + thisFile.getAbsolutePath();
 	}
+
+	@Override
+	public void debugDirectoryTree(int round) {
+		for(DirectoryData d : files)
+		{
+			d.debugDirectoryTree(0);
+		}
+	}
 }

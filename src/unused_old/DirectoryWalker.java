@@ -1,4 +1,4 @@
-package aahhhwheretoput;
+package unused_old;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,7 +83,7 @@ public class DirectoryWalker {
 				handler.writeVertex(d.getVertex());
 				if(!(previousDirectory instanceof TopDirectory))
 				{
-					handler.writeEdge(EdgeHandler.createFromDirectory(previousDirectory, d.getVertex()));
+					handler.writeEdge(EdgeHandler.connectDirectoriesDifferentLevel(previousDirectory, d.getVertex()));
 					System.out.println("Creating Edge from "+d.getFile().getName()+ " to "+previousDirectory.getFile().getName());
 				}
 				walkHelper(newDirectories, d);

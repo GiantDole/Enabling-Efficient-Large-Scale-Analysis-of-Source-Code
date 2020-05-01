@@ -16,7 +16,7 @@ import de.uni_due.s3.jack2.backend.checkers.greqljavachecker.schema.java8.schema
 import de.uni_due.s3.jack2.backend.checkers.greqljavachecker.schema.java8.schema.Java8Schema;
 import de.uni_due.s3.jack2.backend.checkers.greqljavachecker.schema.java8.schema.impl.Java8FactoryImpl;
 
-public class JavaParser implements Parser{
+public class JavaParser extends Parser{
 	
 	private Java8 astGraph;
 	private Visitor visitor;

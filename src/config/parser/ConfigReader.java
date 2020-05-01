@@ -61,7 +61,7 @@ public class ConfigReader {
 					if(command.length() != 0)
 						command.append(" ");
 					command.append(line.substring(0, line.length()-1));
-					return command.toString().toLowerCase();
+					return command.toString();
 				}
 				else
 				{
@@ -179,7 +179,8 @@ public class ConfigReader {
 				save = true;
 			}			
 		}
-		ret.add(next);
+		if(!next.equals(""))
+			ret.add(next);
 		return ret;
 	}
 	

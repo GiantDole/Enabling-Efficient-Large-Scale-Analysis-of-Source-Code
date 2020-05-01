@@ -31,10 +31,12 @@ public class GraphWriter {
 		
 		for(VertexData v : topVertices)
 		{
-			EdgeData newEdge = EdgeHandler.createFromDirectory(previousDirectory, v);
+			EdgeData newEdge = EdgeHandler.connectDirectoriesDifferentLevel(previousDirectory, v);
 			if(newEdge != null)
-				handler.writeEdge(newEdge);
+				handler.writeEdgeQueue(newEdge);
 		}
+		
+		handler.flushCommands();
 	}
 	
 	/**
@@ -44,6 +46,7 @@ public class GraphWriter {
 	public void writeGraph(Graph g)
 	{
 		writeGraphContent(g);
+		handler.flushCommands();
 	}
 	
 	/**
@@ -59,22 +62,18 @@ public class GraphWriter {
 		for(Vertex v : g.vertices())
 		{
 			VertexData vertex = VertexHandler.createfromVertex(v);
-			handler.writeVertex(vertex);
+			handler.writeVertexQueue(vertex);
 			if(vertex.getLabel().equals("TypeDeclaration"))
 			{
 				topVertices.add(vertex);
 			}
 		}
 		
-		handler.flushVertexCommands();
-		
 		for(Edge e : g.edges())
 		{
 			EdgeData edge = EdgeHandler.createFromEdge(e);
-			handler.writeEdge(edge);
+			handler.writeEdgeQueue(edge);
 		}
-		
-		handler.flushEdgeCommands();
 		
 		return topVertices;
 	}

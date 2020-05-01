@@ -3,7 +3,9 @@ package config.parser;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import config.PropertyFactory;
+import config.ConnectedOrder;
+import config.ConnectedOrderFactory;
+import config.PropertyFormatterFactory;
 import config.command.*;
 
 public class ConfigParser {
@@ -20,24 +22,54 @@ public class ConfigParser {
 	public void parseCommands()
 	{
 		//parse optional config start containing DatabaseType and ParserType
-		String command;
-		command = reader.readNextCommandString();
-		if(command.contains("database"))
+		Queue<String> command;
+		command = reader.readNextCommandQueue();
+		if(command.element().toLowerCase().contains("database"))
 		{
-			String database = splitColon(command);
-			commands.add(new DatabaseCommand(database));
-			command = reader.readNextCommandString();
+			String nextCommand = command.poll();
+			String database = splitColon(nextCommand);
+			DatabaseCommand dc = new DatabaseCommand(database);
+			
+			while((nextCommand = command.poll()) != null)
+			{
+				String[] splitted = nextCommand.split(":",2);
+				String input = splitted[splitted.length-1];
+				switch(splitted[0].toLowerCase())
+				{
+				case "uri": 
+					dc.setUri(input);
+					break;
+				case "port":
+					dc.setPort(input);
+					break;
+				case "user":
+					dc.setUser(input);
+					break;
+				case "password":
+					dc.setPassword(input);
+					break;
+				default:
+					System.out.println(splitted[0] + " is not a valid Database Command! Exiting program...");
+					System.exit(0);		
+				}
+			}
+			dc.createMissingParameters();
+			commands.add(dc);
+			command = reader.readNextCommandQueue();
 		}
 		else //default Database: neo4j
 		{
-			commands.add(new DatabaseCommand("neo4j"));
+			DatabaseCommand dc = new DatabaseCommand("neo4j");
+			dc.createMissingParameters();
+			commands.add(dc);
 		}
 		
-		if(command.contains("parser"))
+		if(command.element().toLowerCase().contains("parser"))
 		{
-			String parser = splitColon(command);
+			String c = command.poll();
+			String parser = splitColon(c);
 			commands.add(new ParseCommand(parser));
-			command = reader.readNextCommandString();
+			command = reader.readNextCommandQueue();
 		}
 		else //default Parser: java
 		{
@@ -46,52 +78,71 @@ public class ConfigParser {
 		
 		
 		
-		if(!(command.contains("begindirectories")))
+		if(!(command.element().toLowerCase().contains("begindirectories")))
 		{
 			System.out.println("No obligatory \"beginDirectories\" command in config file!");
 			System.exit(0);
 		}
 		
-		Queue<String> c;
 		DirectoryCommand directory = new DirectoryCommand();
 		commands.add(directory);
-		while(!(c = reader.readNextCommandQueue()).element().contains("enddirectories"))
+		while(!(command = reader.readNextCommandQueue()).element().toLowerCase().contains("enddirectories"))
 		{
-			boolean included = isIncludedNode(c.element());			
+			boolean included = isIncludedNode(command.element());			
 			NodeCommand  nc = new NodeCommand(included);
 			directory.addNode(nc);
 			
 			String nextCommand = "";
 			//TODO TODO TODO
-			while((nextCommand = c.poll())!=null)
+			while((nextCommand = command.poll())!=null)
 			{
 				String[] splitted = nextCommand.split(":",2);
 				String input = splitted[splitted.length-1];
-				switch(splitted[0])
+				switch(splitted[0].toLowerCase())
 				{
 				case "label":
 				case "name":
 					nc.setLabel(input);
+					if(nc.getConnected()!=null)
+					{
+						nc.getConnected().setLabel(input);
+					}
 					break;
 				case "path":
-					nc.setPath(formatPath(input));
+					nc.setPath(formatQuotationMarks(input));
 					break;
 				case "startswith":
 					String[] splitbyComma = input.split(",");
 					for(String s : splitbyComma)
 					{
-						nc.addFileStartingWith(s);
+						nc.addFileStartingWith(formatQuotationMarks(s));
 					}
+//					if(nc.getConnected()!=null)
+//					{
+//						nc.getConnected().setFilesStartingWith(nc.getFilesStartingWith());
+//					}
 					break;
 				case "property":
-					nc.setProperty(PropertyFactory.selectFormatter(input));
+					nc.setProperty(PropertyFormatterFactory.selectFormatter(input));
 					break;
 				case "edgelabel":
 				case "edgename":
 					nc.setEdgeLabel(input);
 					break;
+				case "contained":
+					if(input.contains("true"))
+					{
+						nc.setContainsPrograms();
+					}
+					break;
+				case "parent":
+					nc.setParent(input);
+					break;
 				case "connected":
-					nc.setConnected(input);
+					ConnectedOrder connected = ConnectedOrderFactory.selectOrder(input);
+					if(nc.getLabel()!=null)
+						connected.setLabel(nc.getLabel());
+					nc.setConnected(connected);				
 					break;
 				default:
 					System.out.println("The command "+splitted[0]+" doesn't exist for the Directory Section.\n Please check your config file!");
@@ -107,44 +158,55 @@ public class ConfigParser {
 		}
 		
 		
-		command = reader.readNextCommandString();
-		if(command!= null && command.contains("beginexcludes"))
+		command = reader.readNextCommandQueue();
+		if(command!= null && command.element().toLowerCase().contains("beginexcludedirectories"))
 		{
-			ExcludeCommand ec = new ExcludeCommand();
-			directory.addExcludes(ec);
-			while(!(c = reader.readNextCommandQueue()).element().contains("endexcludes"))
+			
+			while(!(command = reader.readNextCommandQueue()).element().toLowerCase().contains("endexcludedirectories"))
 			{
-				String[] splitted = command.split(":");
-				String input = splitted[splitted.length-1];
-				switch(splitted[0])
+				ExcludeCommand ec = new ExcludeCommand();
+				directory.addExcludes(ec);
+				String nextCommand = "";
+				
+				while((nextCommand = command.poll())!=null)
 				{
-				case "path":
-					ec.setPath(input);
-					break;
-				default:
-					System.out.println("The command "+splitted[0]+" doesn't exist for the Excluded Section.\n Please check your config file!");
+					String[] splitted = nextCommand.split(":",2);
+					String input = splitted[splitted.length-1];
+					switch(splitted[0].toLowerCase())
+					{
+					case "path":
+						ec.setPath(formatQuotationMarks(input));
+						break;
+					default:
+						System.out.println("The command "+splitted[0]+" doesn't exist for the Exclude Directory Section.\n Please check your config file!");
+						System.exit(0);
+					}
+				}
+				
+				if(!ec.checkValidity())
+				{
+					System.out.println("The format of your Excludes segment is incorrect! Some obligatory attributes are missing!");
 					System.exit(0);
 				}
-			}
-			
-			if(!ec.checkValidity())
-			{
-				System.out.println("The format of your Excludes segment is incorrect! Some obligatory attributes are missing!");
-				System.exit(0);
-			}
+			}			
 		}
 		
 
 	}
 	
-	private String formatPath(String s)
+	private String formatQuotationMarks(String s)
 	{
 		if(s.charAt(0) == '\"')
 		{
 			return s.substring(1,s.length()-1);
 		}
-		
 		return s;
+//		else //given path has a predecessor
+//		{
+//			String[] splitted = s.split("\"",2);
+//			nc.setPathPredecessor(splitted[0]);
+//			nc.setPath(splitted[1].substring(0, splitted[1].length()-1));
+//		}
 	}
 	
 	private boolean isIncludedNode(String s)

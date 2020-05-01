@@ -2,7 +2,7 @@ package config;
 
 import java.util.List;
 
-import dao.AttributePair;
+import GraphHandling.AttributePair;
 
 public abstract class PropertyFormatter {
 

@@ -15,4 +15,20 @@ public class DirectoryFake extends DirectoryData{
 	public void addElement(DirectoryData t) {
 		predecessor.addElement(t);
 	}
+
+	@Override
+	public void debugDirectoryTree(int round) {
+		System.out.println("");
+		for(int i=0;i<=round;i++)
+		{
+			System.out.print("\t");
+		}
+		
+		System.out.print(thisFile.getName());
+		
+		for(DirectoryData d : files)
+		{
+			d.debugDirectoryTree(round + 1);
+		}
+	}
 }

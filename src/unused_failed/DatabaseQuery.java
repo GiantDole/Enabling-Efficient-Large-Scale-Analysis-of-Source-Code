@@ -2,7 +2,7 @@ package unused_failed;
 
 import java.util.List;
 
-import dao.AttributePair;
+import GraphHandling.AttributePair;
 
 public interface DatabaseQuery {
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry excluding="de/uni_due/s3/jack2/backend/checkers/greqljavachecker/schema/java7/" kind="src" path="src"/>
+	<classpathentry kind="src" path="srctest"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/com.ibm.icu_4.4.2.v20110823.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/jdi.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/jdimodel.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.apache.log4j_1.2.15.v201012070815.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.core.runtime.compatibility.auth_3.2.200.v20110110.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.equinox.util_1.0.400.v20120522-2049.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.jdt.compiler.apt_1.0.600.v20130116-050536.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.jdt.compiler.tool_1.0.200.v20130116-050536.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.jdt.launching_3.6.101.v20130111-183046.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.jface.databinding_1.6.0.v20120521-2329.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.jface_3.8.0.v20120521-2329.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/runtime_registry_compatibility.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/de.uni_due.s3.jack2.backend.checkers.GreQLJavaChecker/lib/jgralab.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.osgi.services_3.3.100.v20120522-1822.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.equinox.ds_1.4.0.v20120522-1841.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.equinox.event_1.2.200.v20120522-2049.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.equinox.launcher_1.3.0.v20120522-1813.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/neo4j-java-driver-4.0.1.jar" sourcepath="C:/Users/adria/.m2/repository/org/neo4j/driver/neo4j-java-driver/4.0.1/neo4j-java-driver-4.0.1-sources.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/reactive-streams-1.0.3.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.core.variables_3.2.600.v20120521-2012.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.core.databinding.observable_1.4.1.v20120521-2329.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.core.databinding.property_1.4.100.v20120523-1955.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/org.eclipse.core.databinding_1.4.1.v20120521-2329.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.core.commands-3.9.700.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.core.contenttype-3.7.600.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.core.expressions-3.6.700.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.core.filesystem-1.7.700.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.core.jobs-3.10.700.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.core.resources-3.13.700.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.core.runtime-3.17.100.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.equinox.app-1.4.400.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.equinox.common-3.11.0.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.equinox.preferences-3.7.700.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.equinox.registry-3.8.700.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.jdt.core-3.21.0.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.osgi-3.15.200.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.text-3.10.100.jar"/>
+	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/neo4j-jdbc-driver-4.0.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

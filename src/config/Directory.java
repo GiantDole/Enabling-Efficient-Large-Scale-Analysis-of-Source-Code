@@ -3,18 +3,22 @@ package config;
 import java.io.File;
 import java.util.List;
 
-import dao.AttributePair;
+import GraphHandling.AttributePair;
 
 public class Directory extends DirectoryData{
 	
 	private String label;
+	//refers to the property of this directory
 	private PropertyFormatter property;
-	private String connected;
+	//refers to the connectedness of other directories on same hierarchy level
+	private ConnectedOrder connectedOrder;
 	
 	public Directory(String label, String edgeLabel, File f) {
 		super(f);
 		this.label = label;
 		this.edgeLabel = edgeLabel;
+		connectedOrder = null;
+		property = null;
 	}
 
 
@@ -52,13 +56,30 @@ public class Directory extends DirectoryData{
 		return label;
 	}
 
-	public String getConnected() {
-		return connected;
+	public ConnectedOrder getConnectedOrder() {
+		return connectedOrder;
 	}
 
 
-	public void setConnected(String connected) {
-		this.connected = connected;
+	public void addConnectedOrder(ConnectedOrder connected) {
+		connectedOrder = connected;
+	}
+
+
+	@Override
+	public void debugDirectoryTree(int round) {
+		System.out.println("");
+		for(int i=0;i<=round;i++)
+		{
+			System.out.print("\t");
+		}
+		
+		System.out.print(thisFile.getName());
+		
+		for(DirectoryData d : files)
+		{
+			d.debugDirectoryTree(round + 1);
+		}
 	}
 	
 }
