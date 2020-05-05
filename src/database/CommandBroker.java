@@ -1,6 +1,5 @@
 package database;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +23,7 @@ public class CommandBroker {
 //		//edgeCommandQueue.put(command);
 //	}
 	
-	public void putComandList(List<String> commands) throws InterruptedException
+	public void putCommands(List<String> commands) throws InterruptedException
 	{
 		commandQueue.put(commands);
 	}

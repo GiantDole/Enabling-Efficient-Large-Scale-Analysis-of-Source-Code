@@ -19,6 +19,13 @@ public class NodeCommand {
 	private boolean includedinTree;
 	private boolean containsPrograms;
 	
+	/**
+	 * if the directory isn't necessarily a subdirectory, but also the next nodecommand might be
+	 */
+	private boolean isoptional;
+	
+
+
 	public NodeCommand(boolean included)
 	{
 		includedinTree = included;
@@ -30,6 +37,7 @@ public class NodeCommand {
 		connected = null;
 		parent = null;
 		containsPrograms = false;
+		isoptional = false;
 	}
 	
 	public List<String> getFilesStartingWith()
@@ -45,6 +53,14 @@ public class NodeCommand {
 
 	public void setIncludedinTree(boolean includedinTree) {
 		this.includedinTree = includedinTree;
+	}
+	
+	public boolean isoptional() {
+		return isoptional;
+	}
+
+	public void setOptional(boolean isoptional) {
+		this.isoptional = isoptional;
 	}
 
 	public String getLabel() {

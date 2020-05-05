@@ -69,10 +69,12 @@ public class DatabaseThreadController{
 	public void close() throws Exception
 	{
 		executor.shutdown();
-		while(!executor.awaitTermination(60, TimeUnit.SECONDS))
+		while(!executor.awaitTermination(60, TimeUnit.MINUTES))
 		{
 			System.out.println("Waiting for Database writers to finish...");
 		}
+		
+		System.out.println("ExecutorService was shutdown; all threads are finished");
 		
 		for(DatabaseWriter thread : threads)
 		{

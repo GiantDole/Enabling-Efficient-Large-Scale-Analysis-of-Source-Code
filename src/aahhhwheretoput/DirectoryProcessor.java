@@ -37,10 +37,10 @@ public class DirectoryProcessor {
 	}
 	
 	
-	public void writeGraphs()
+	public void writeGraphs(int threadamount)
 	{
 		List<DirectoryData> directories = firstDirectory.getSuccessors();
-		handler.addThread(7);
+		handler.addThread(threadamount);
 		writeGraphsHelper(directories, firstDirectory);
 		handler.close();
 	}

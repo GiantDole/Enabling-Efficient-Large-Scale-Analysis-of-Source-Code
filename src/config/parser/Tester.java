@@ -1,7 +1,5 @@
 package config.parser;
 
-import java.util.Queue;
-
 import aahhhwheretoput.DirectoryProcessor;
 import config.Config;
 
@@ -12,7 +10,7 @@ public class Tester {
 		long timeStart = System.currentTimeMillis();
 		
 		
-		String path = "D:\\Uni\\Bachelorarbeit\\TreeTest.txt";
+		String path = "C:\\Daten\\TestDataTree.txt";
 		ConfigInterpreter cr1 = new ConfigInterpreter(path);
 		Config c = cr1.createConfig();
 
@@ -21,7 +19,7 @@ public class Tester {
 		
 		DirectoryProcessor p = new DirectoryProcessor(c);
 		p.writeDirectoryStructure();
-		p.writeGraphs();
+		p.writeGraphs(8);
 //		
 //		ConfigReader reader = new ConfigReader(path);
 //		Queue<String> c;

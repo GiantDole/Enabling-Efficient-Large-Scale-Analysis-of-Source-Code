@@ -24,7 +24,7 @@ public class ConfigParser {
 		//parse optional config start containing DatabaseType and ParserType
 		Queue<String> command;
 		command = reader.readNextCommandQueue();
-		if(command.element().toLowerCase().contains("database"))
+		if(command!=null && command.element().toLowerCase().contains("database"))
 		{
 			String nextCommand = command.poll();
 			String database = splitColon(nextCommand);
@@ -143,6 +143,12 @@ public class ConfigParser {
 					if(nc.getLabel()!=null)
 						connected.setLabel(nc.getLabel());
 					nc.setConnected(connected);				
+					break;
+				case "optional":
+					if(input.equals("true"))
+					{
+						nc.setOptional(true);
+					}
 					break;
 				default:
 					System.out.println("The command "+splitted[0]+" doesn't exist for the Directory Section.\n Please check your config file!");

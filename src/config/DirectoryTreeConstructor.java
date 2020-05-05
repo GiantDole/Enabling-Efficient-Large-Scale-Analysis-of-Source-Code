@@ -53,40 +53,91 @@ public class DirectoryTreeConstructor {
 		if(nodeCommands.isEmpty())
 			return;
 		
+		List<DirectoryData> newPreviousDirectories = new ArrayList<DirectoryData>();
+		
 		NodeCommand command = nodeCommands.poll();
-		if(command.getParent() == null)
+		if(checkParent(command.getParent(), previousDirectories))
 		{
-			previousDirectories = buildNextHierarchyLevel(command, previousDirectories);
+			newPreviousDirectories = buildNextHierarchyLevel(command, previousDirectories);
 		}
 		else
 		{
-			previousDirectories = matchPreviousDirectories(command.getParent(), firstDirectory);
-			previousDirectories = buildNextHierarchyLevel(command, previousDirectories);
+			newPreviousDirectories = matchPreviousDirectories(command.getParent(), firstDirectory);
+			newPreviousDirectories = buildNextHierarchyLevel(command, newPreviousDirectories);
 		}
 		
-		//previousDirectories is already updated here to newly inserted ones
-		if(command.getContainsPrograms())
+		if(command.isoptional())
 		{
-			for(DirectoryData dir : previousDirectories)
+//			NodeCommand optionalCommand = nodeCommands.peek();
+//			List<DirectoryData> optionalPreviousDirectories = new ArrayList<DirectoryData>();
+//			if(optionalCommand != null)
+//			{
+//				if(checkParent(optionalCommand.getParent(), previousDirectories))
+//				{
+//					optionalPreviousDirectories = buildNextHierarchyLevel(optionalCommand, previousDirectories);
+//				}
+//				else
+//				{
+//					optionalPreviousDirectories = matchPreviousDirectories(optionalCommand.getParent(), firstDirectory);
+//					optionalPreviousDirectories = buildNextHierarchyLevel(optionalCommand, optionalPreviousDirectories);
+//				}
+//			}
+			newPreviousDirectories.addAll(previousDirectories);
+			
+//			checkForProgramFiles(optionalCommand, optionalPreviousDirectories);
+//			choosePreviousNodes(optionalPreviousDirectories, firstDirectory);
+//			newPreviousDirectories.addAll(optionalPreviousDirectories);
+		}
+		
+//		//previousDirectories is already updated here to newly inserted ones
+//		if(command.getContainsPrograms())
+//		{
+//			for(DirectoryData dir : previousDirectories)
+//			{
+//				File[] content = dir.getFile().listFiles();
+//				for(File f : content)
+//				{
+//					String fileName = f.getName();
+//					if(fileName.contains("."))
+//					{
+//						String[] splitted = fileName.split("\\.");
+//						if(splitted.length > 1 && splitted[splitted.length-1].compareTo(fileEnding)==0)
+//						{
+//							JavaFile je = new JavaFile(f);
+//							dir.addElement(je);
+//						}
+//					}
+//				}
+//			}
+//		}
+		checkForProgramFiles(command, newPreviousDirectories);
+		
+		choosePreviousNodes(newPreviousDirectories, firstDirectory);
+	}
+	
+	private void checkForProgramFiles(NodeCommand command, List<DirectoryData> previousDirectories)
+	{
+		//previousDirectories is already updated here to newly inserted ones
+			if(command.getContainsPrograms())
 			{
-				File[] content = dir.getFile().listFiles();
-				for(File f : content)
+				for(DirectoryData dir : previousDirectories)
 				{
-					String fileName = f.getName();
-					if(fileName.contains("."))
+					File[] content = dir.getFile().listFiles();
+					for(File f : content)
 					{
-						String[] splitted = fileName.split("\\.");
-						if(splitted.length > 1 && splitted[splitted.length-1].compareTo(fileEnding)==0)
+						String fileName = f.getName();
+						if(fileName.contains("."))
 						{
-							JavaFile je = new JavaFile(f);
-							dir.addElement(je);
+							String[] splitted = fileName.split("\\.");
+							if(splitted.length > 1 && splitted[splitted.length-1].compareTo(fileEnding)==0)
+							{
+								JavaFile je = new JavaFile(f);
+								dir.addElement(je);
+							}
 						}
 					}
 				}
 			}
-		}
-		
-		choosePreviousNodes(previousDirectories, firstDirectory);
 	}
 	
 	private List<DirectoryData> matchPreviousDirectories(String name, TopDirectory firstDirectory)
@@ -159,6 +210,28 @@ public class DirectoryTreeConstructor {
 			nextList.add(newDir);
 			dir.addElement(newDir);
 		}
+	}
+	
+	/**
+	 * checks if the previous Directories match the hierarchy level of the given parent
+	 * if parent is null the previously processed directories are the parent
+	 * @param parent label of the parent nodes hierarchy
+	 * @param previousDirectories previously processed directories
+	 * @return true if the previously processed directories are the parent or the parent is null
+	 */
+	private boolean checkParent(String parent, List<DirectoryData> previousDirectories)
+	{
+		if(parent == null)
+			return true;
+		DirectoryData dir = previousDirectories.get(0);
+		if(dir instanceof TopDirectory)
+			return true;
+		if(dir instanceof Directory)
+		{
+			if(((Directory) dir).getLabel().equals(parent))
+				return true;
+		}
+		return false;
 	}
 	
 	private void setSuccessorsStartingWith(List<String> startsWith, boolean include, NodeCommand nextCommand, File f, List<DirectoryData> nextList, DirectoryData dir)

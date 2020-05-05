@@ -1,12 +1,16 @@
 package database;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Transaction;
 import org.neo4j.driver.TransactionWork;
 import org.neo4j.driver.exceptions.ServiceUnavailableException;
-import org.neo4j.driver.exceptions.TransientException;
+
 
 public class DatabaseWriterNeo4j extends DatabaseWriter{
 
@@ -14,6 +18,7 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 //	private static String password;
 //	private static String user;
 	private DatabaseConnectorNeo4j connector;
+	private static final Logger logger = Logger.getRootLogger();
 	
 //	public DatabaseWriterNeo4j(String uri, String user, String password, CommandBroker broker)
 //	{
@@ -52,7 +57,12 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 		
 		try(Session session = connector.getDriver().session())
 		{
-			session.run(command);
+			//session.run(command);
+			try(Transaction tx = session.beginTransaction())
+			{
+				tx.run(command);
+				tx.commit();
+			}
 		}
 //		try(Session session = connector.getDriver().session())
 //		{
@@ -71,6 +81,18 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 			
 	}
 	
+	private List<String> getReturnValues(Result result)
+	{
+		List<String> returnValues = new ArrayList<String>();
+		
+		while(result.hasNext())
+		{
+			returnValues.add(result.next().get(0).asString());
+		}
+		
+		return returnValues;
+	}
+	
 	//https://neo4j.com/docs/driver-manual/1.7/sessions-transactions/
 	//transactions are thread confined
 	public void writeMultipleCommands(List<String> commands)
@@ -85,6 +107,7 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 					for(String s : commands)
 					{
 						tx.run(s);
+						logger.info("The following command has been written: \t"+s);
 					}
 					return 1;
 				}
@@ -95,7 +118,12 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 		//driver is no longer able to establish communication
 		catch(ServiceUnavailableException e) 
 		{
-			
+			logger.error("Queries couldn't be written because of connection problems: \t" + e);
+		}
+		//catch any exception; retry getting session
+		catch(Exception e)
+		{
+			logger.error("An error occured while writing to database: \t"+e);
 		}
 		//deadlock or memory issue
 		//driver automatically retries this exception

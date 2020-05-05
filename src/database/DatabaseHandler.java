@@ -70,7 +70,7 @@ public class DatabaseHandler {
 	private void addCommandsToBroker(List<String> commands)
 	{
 		try {
-			broker.putComandList(commands);
+			broker.putCommands(commands);
 		} catch (InterruptedException e) {
 			System.out.println("Couldn't add Edge command " +commands);
 			e.printStackTrace();

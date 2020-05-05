@@ -13,7 +13,7 @@ public class DatabaseFactory {
 		switch(dname)
 		{
 		case "neo4j":
-			DatabaseQueryCypher cypher = new DatabaseQueryCypher();
+			DatabaseQueryBuilderCypher cypher = new DatabaseQueryBuilderCypher();
 			CommandBroker broker = new CommandBroker();
 			DatabaseConnectorNeo4j connector = new DatabaseConnectorNeo4j();
 			connector.setConnection(database.getUri(), database.getUser(), database.getPassword());
