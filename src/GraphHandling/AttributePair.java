@@ -3,15 +3,15 @@ package GraphHandling;
 public class AttributePair {
 	
 	private String key;
-	private String value;
+	private Object value;
 	//Is this attribute an integer?
-	private boolean integer;
+//	private boolean integer;
 	
-	public AttributePair(String k, String v, boolean integer)
+	public AttributePair(String k, Object v)//, boolean integer)
 	{
 		key = k;
 		value = v;
-		this.integer = integer;
+//		this.integer = integer;
 	}
 	
 	public String getKey()
@@ -19,13 +19,13 @@ public class AttributePair {
 		return key;
 	}
 	
-	public String getValue()
+	public Object getValue()
 	{
 		return value;
 	}
 	
-	public boolean getInteger()
-	{
-		return integer;
-	}
+//	public boolean getInteger()
+//	{
+//		return integer;
+//	}
 }

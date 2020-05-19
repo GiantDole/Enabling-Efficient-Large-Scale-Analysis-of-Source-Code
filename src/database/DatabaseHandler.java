@@ -14,7 +14,7 @@ public class DatabaseHandler {
 	//private DatabaseWriter database;
 //	private StringBuilder cummulatedVertexCommand;
 //	private StringBuilder cummulatedEdgeCommand;
-	private List<String> cummulatedCommands;
+	private List<DatabaseQuery> cummulatedCommands;
 	private CommandBroker broker;
 	private DatabaseThreadController threadPool;
 	
@@ -25,7 +25,7 @@ public class DatabaseHandler {
 		this.language = language;
 //		cummulatedVertexCommand = new StringBuilder();
 //		cummulatedEdgeCommand = new StringBuilder();
-		cummulatedCommands = new ArrayList<String>();
+		cummulatedCommands = new ArrayList<>();
 		this.broker = broker;
 		threadPool = pool;
 	}
@@ -67,7 +67,7 @@ public class DatabaseHandler {
 		threadPool.waitForThreads();
 	}
 	
-	private void addCommandsToBroker(List<String> commands)
+	private void addCommandsToBroker(List<DatabaseQuery> commands)
 	{
 		try {
 			broker.putCommands(commands);
@@ -77,9 +77,9 @@ public class DatabaseHandler {
 		}
 	}
 	
-	private void addCommandToBroker(String command)
+	private void addCommandToBroker(DatabaseQuery command)
 	{
-		List<String> list = new ArrayList<String>();
+		List<DatabaseQuery> list = new ArrayList<>();
 		list.add(command);
 		addCommandsToBroker(list);
 	}
@@ -117,10 +117,10 @@ public class DatabaseHandler {
 //		cummulatedVertexCommand.setLength(0);
 		//ERROR happened here:
 		//as Commands were not copied the same list was used by several threads at the same time
-		List<String> copyOfCommands = new ArrayList<String>();
+		List<DatabaseQuery> copyOfCommands = new ArrayList<>();
 		copyOfCommands.addAll(cummulatedCommands);
 		addCommandsToBroker(copyOfCommands);
-		List<String> newList = new ArrayList<String>();
+		List<DatabaseQuery> newList = new ArrayList<>();
 		cummulatedCommands = newList;
 	}
 	
@@ -131,7 +131,7 @@ public class DatabaseHandler {
 //		cummulatedEdgeCommand.setLength(0);
 //	}
 	
-	public void writeEdge(String label, List<AttributePair> attributes, String vertex1, String vertex2)
+	public void writeEdge(String label, List<AttributePair> attributes, long vertex1, long vertex2)
 	{
 		//database.writeCommand(language.createEdgeCommand(label, attributes, vertex1, vertex2));
 //		addEdgeToBroker(language.createEdgeCommand(label, attributes, vertex1, vertex2));

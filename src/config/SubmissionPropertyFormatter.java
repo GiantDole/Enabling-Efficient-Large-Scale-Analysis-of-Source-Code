@@ -11,8 +11,8 @@ public class SubmissionPropertyFormatter extends PropertyFormatter{
 	public List<AttributePair> getProperties(String filename) {
 		List<AttributePair> ret = new ArrayList<AttributePair>();
 		String[] splitter = filename.split("(");
-		ret.add(new AttributePair("Abgabe", splitter[0], false));
-		ret.add(new AttributePair("Punkte", splitter[1], true));
+		ret.add(new AttributePair("Abgabe", splitter[0]));
+		ret.add(new AttributePair("Punkte", Integer.getInteger(splitter[1])));
 		return ret;
 	}
 

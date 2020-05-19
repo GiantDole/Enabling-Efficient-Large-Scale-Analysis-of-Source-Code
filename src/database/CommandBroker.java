@@ -8,7 +8,7 @@ public class CommandBroker {
 
 //	private ArrayBlockingQueue<String> vertexCommandQueue = new ArrayBlockingQueue<String>(400);
 //	private ArrayBlockingQueue<String> edgeCommandQueue = new ArrayBlockingQueue<String>(400);
-	private ArrayBlockingQueue<List<String>> commandQueue = new ArrayBlockingQueue<List<String>>(1000);
+	private ArrayBlockingQueue<List<DatabaseQuery>> commandQueue = new ArrayBlockingQueue<List<DatabaseQuery>>(1000);
 	
 //	public void putVertexCommand(String command) throws InterruptedException
 //	{
@@ -23,7 +23,7 @@ public class CommandBroker {
 //		//edgeCommandQueue.put(command);
 //	}
 	
-	public void putCommands(List<String> commands) throws InterruptedException
+	public void putCommands(List<DatabaseQuery> commands) throws InterruptedException
 	{
 		commandQueue.put(commands);
 	}
@@ -39,9 +39,9 @@ public class CommandBroker {
 //		return vertexCommandQueue.poll(1, TimeUnit.SECONDS);
 //	}
 	
-	public synchronized List<String> getNextCommandList() throws InterruptedException
+	public synchronized List<DatabaseQuery> getNextCommandList() throws InterruptedException
 	{
-		return commandQueue.poll(1, TimeUnit.SECONDS);
+		return commandQueue.poll(5, TimeUnit.SECONDS);
 	}
 	
 }

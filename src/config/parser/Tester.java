@@ -1,20 +1,24 @@
 package config.parser;
 
 import aahhhwheretoput.DirectoryProcessor;
+import aahhhwheretoput.UserInput;
 import config.Config;
 
 public class Tester {
 	
 	public static void main(String args[])
 	{
+		//PropertyConfigurator.configure("log4j.properties");
+	
 		long timeStart = System.currentTimeMillis();
 		
 		
+		//String path = UserInput.getConfigPath();
 		String path = "C:\\Daten\\TestDataTree.txt";
 		ConfigInterpreter cr1 = new ConfigInterpreter(path);
 		Config c = cr1.createConfig();
 
-		c.getFirstDirectory().debugDirectoryTree(0);
+		//c.getFirstDirectory().debugDirectoryTree(0);
 		
 		
 		DirectoryProcessor p = new DirectoryProcessor(c);

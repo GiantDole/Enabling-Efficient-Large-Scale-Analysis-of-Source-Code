@@ -16,7 +16,7 @@ public class VertexHandler {
 	{
 		idCounter++;
 		List<AttributePair> attributes = dir.getProperties();
-		attributes.add(new AttributePair("UID",String.valueOf(idCounter),true));
+		attributes.add(new AttributePair("UID",idCounter));
 		return new VertexData(dir.getLabel(),attributes, idCounter);
 	}
 	
@@ -32,25 +32,29 @@ public class VertexHandler {
 		for(Attribute a:attributes)
 		{
 			String attributename = a.getName();
-			String value = "";
-			boolean integer = false;
+//			String value = "";
+//			boolean integer = false;
 			
 			Object o = v.getAttribute(attributename);
-			if (o instanceof Integer)
+//			if (o instanceof Integer)
+//			{
+//				Integer i = (int) o;
+//				value = Integer.toString(i);
+//				integer = true;
+//			}
+//			else 
+//			{
+//				value = String.valueOf(o);
+//				value = escapeCharacters(value);
+//			}
+			if(o instanceof String)
 			{
-				Integer i = (int) o;
-				value = Integer.toString(i);
-				integer = true;
-			}
-			else 
-			{
-				value = String.valueOf(o);
-				value = escapeCharacters(value);
+				o = escapeCharacters((String) o);
 			}
 			
-			newAttributes.add(new AttributePair(a.getName(),value, integer));
+			newAttributes.add(new AttributePair(attributename,o));
 		}
-		newAttributes.add(new AttributePair("UID",String.valueOf(idCounter), true));
+		newAttributes.add(new AttributePair("UID", idCounter));
 		String name = x.getQualifiedName();
 		VertexData vd = new VertexData(name, newAttributes, idCounter);
 		MappingData.addVertexMapping(v, vd);

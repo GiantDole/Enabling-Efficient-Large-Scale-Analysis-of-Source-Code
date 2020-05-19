@@ -9,8 +9,8 @@ import GraphHandling.VertexData;
 //TODO make a DAO interface for different objects
 public interface DatabaseQueryBuilder {
 
-	public String createVertexCommand(String label, List<AttributePair> attributes);
-	public String createVertexCommand(VertexData vertex);
-	public String createEdgeCommand(String label, List<AttributePair> attributes, String vertex1, String vertex2);
-	public String createEdgeCommand(EdgeData edge);
+	public DatabaseQuery createVertexCommand(String label, List<AttributePair> attributes);
+	public DatabaseQuery createVertexCommand(VertexData vertex);
+	public DatabaseQuery createEdgeCommand(String label, List<AttributePair> attributes, long vertex1, long vertex2);
+	public DatabaseQuery createEdgeCommand(EdgeData edge);
 }

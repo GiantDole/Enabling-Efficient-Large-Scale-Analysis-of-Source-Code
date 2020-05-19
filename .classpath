@@ -45,6 +45,5 @@
 	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.jdt.core-3.21.0.jar"/>
 	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.osgi-3.15.200.jar"/>
 	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/new_core/org.eclipse.text-3.10.100.jar"/>
-	<classpathentry kind="lib" path="D:/Uni/Bachelorarbeit/new_Checker/jarFiles/neo4j-jdbc-driver-4.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

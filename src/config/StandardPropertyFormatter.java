@@ -17,7 +17,7 @@ public class StandardPropertyFormatter extends PropertyFormatter{
 	@Override
 	public List<AttributePair> getProperties(String filename) {
 		List<AttributePair> x = new ArrayList<AttributePair>();
-		x.add(new AttributePair(propertyKey, filename, false));
+		x.add(new AttributePair(propertyKey, filename));
 		return x;
 	}
 

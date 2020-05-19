@@ -33,13 +33,13 @@ public class EdgeData{
 		return to;
 	}
 	
-	public String getFromID()
+	public long getFromID()
 	{
-		return String.valueOf(from.getId());
+		return from.getId();
 	}
 	
-	public String getToID()
+	public long getToID()
 	{
-		return String.valueOf(to.getId());
+		return to.getId();
 	}
 }

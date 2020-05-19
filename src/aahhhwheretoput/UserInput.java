@@ -9,7 +9,7 @@ public class UserInput {
 	
 	public static String getConfigPath(){
 		JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-		fc.setDialogTitle("Select one or more .tg file");
+		fc.setDialogTitle("Select a valid config file");
 		int returnValue = fc.showOpenDialog(null);
 		
 		String path = "";
