@@ -2,6 +2,7 @@ package GraphHandling;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import config.DirectoryData;
@@ -54,7 +55,7 @@ public class EdgeHandler {
 		Vertex v1 = e.getAlpha();
 		Vertex v2 = e.getOmega();
 		
-		return new EdgeData(name, newAttributes, MappingData.getVertex(v1), MappingData.getVertex(v2));
+		return new EdgeData(new ArrayList<>(Arrays.asList(name)), newAttributes, MappingData.getVertex(v1), MappingData.getVertex(v2));
 	}
 	
 	/**
@@ -68,7 +69,7 @@ public class EdgeHandler {
 		String label = dir.getEdgeLabel();
 		if(label == null)
 			return null;
-		return new EdgeData(label, new ArrayList<AttributePair>(), from ,dir.getVertex());
+		return new EdgeData(new ArrayList<>(Arrays.asList(label)), new ArrayList<AttributePair>(), from ,dir.getVertex());
 	}
 	
 	/**
@@ -80,7 +81,7 @@ public class EdgeHandler {
 	 */
 	public static EdgeData connectDirectoriesSameLevel(VertexData from, VertexData to, String label)
 	{
-		return new EdgeData(label, new ArrayList<AttributePair>(), from, to);
+		return new EdgeData(new ArrayList<>(Arrays.asList(label)), new ArrayList<AttributePair>(), from, to);
 	}
 	
 	private static String escapeCharacters(String s)

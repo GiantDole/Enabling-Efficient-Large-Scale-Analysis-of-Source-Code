@@ -41,7 +41,7 @@ public class CommandBroker {
 	
 	public synchronized List<DatabaseQuery> getNextCommandList() throws InterruptedException
 	{
-		return commandQueue.poll(5, TimeUnit.SECONDS);
+		return commandQueue.poll(1, TimeUnit.SECONDS);
 	}
 	
 }

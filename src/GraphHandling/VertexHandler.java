@@ -1,6 +1,7 @@
 package GraphHandling;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import config.Directory;
@@ -17,7 +18,7 @@ public class VertexHandler {
 		idCounter++;
 		List<AttributePair> attributes = dir.getProperties();
 		attributes.add(new AttributePair("UID",idCounter));
-		return new VertexData(dir.getLabel(),attributes, idCounter);
+		return new VertexData(new ArrayList<>(Arrays.asList(dir.getLabel())),attributes, idCounter);
 	}
 	
 	public static VertexData createfromVertex(Vertex v)
@@ -56,7 +57,7 @@ public class VertexHandler {
 		}
 		newAttributes.add(new AttributePair("UID", idCounter));
 		String name = x.getQualifiedName();
-		VertexData vd = new VertexData(name, newAttributes, idCounter);
+		VertexData vd = new VertexData(new ArrayList<>(Arrays.asList(name)), newAttributes, idCounter);
 		MappingData.addVertexMapping(v, vd);
 		return vd;
 	}

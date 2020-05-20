@@ -10,13 +10,13 @@ import de.uni_koblenz.jgralab.Graph;
 import de.uni_koblenz.jgralab.Vertex;
 
 
-public class GraphWriter {
+public class GraphWriter2 {
 	
 	private DatabaseHandler handler;
 	
 	private static long graphID = -1;
 	
-	public GraphWriter(DatabaseHandler handler)
+	public GraphWriter2(DatabaseHandler handler)
 	{
 		this.handler = handler;
 	}

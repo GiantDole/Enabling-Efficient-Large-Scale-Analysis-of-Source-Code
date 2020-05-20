@@ -5,13 +5,13 @@ import java.util.List;
 public class EdgeData{
 
 	private List<AttributePair> attributePairs;
-	private String name;
+	private List<String> labels;
 	private VertexData from;
 	private VertexData to;
 	
-	public EdgeData(String name, List<AttributePair> attributes, VertexData from, VertexData to)
+	public EdgeData(List<String> labels, List<AttributePair> attributes, VertexData from, VertexData to)
 	{
-		this.name = name;
+		this.labels = labels;
 		attributePairs = attributes;
 		this.from = from;
 		this.to = to;
@@ -21,8 +21,8 @@ public class EdgeData{
 		return attributePairs;
 	}
 
-	public String getName() {
-		return name;
+	public List<String> getLabels() {
+		return labels;
 	}
 
 	public VertexData getFrom() {

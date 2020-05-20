@@ -19,7 +19,7 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 //	private static String password;
 //	private static String user;
 	private DatabaseConnectorNeo4j connector;
-	//private static final Logger logger = Logger.getLogger(DatabaseWriterNeo4j.class);
+	private static final Logger logger = Logger.getLogger(DatabaseWriterNeo4j.class);
 	//TODO
 	
 //	public DatabaseWriterNeo4j(String uri, String user, String password, CommandBroker broker)
@@ -108,7 +108,7 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 					{
 						DatabaseQueryNeo4j dqn = (DatabaseQueryNeo4j) dq;
 						tx.run(dqn.getQuery(),dqn.getParams());
-						//logger.debug("The following command has been written: \t"+dqn.getQuery());
+						logger.debug("The following command has been written: \t"+dqn.getQuery());
 					}
 					return 1;
 				}
@@ -132,8 +132,8 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 		//driver is no longer able to establish communication
 		catch(ServiceUnavailableException e) 
 		{
-//			logger.error("Queries couldn't be written by Thread "+Thread.currentThread().getId()+" because of connection problems: \t" + e);
-//			logger.debug("Thread "+Thread.currentThread().getId()+" disconnected from database. Retry writing in 2 min.");
+			logger.error("Queries couldn't be written by Thread "+Thread.currentThread().getId()+" because of connection problems: \t" + e);
+			logger.debug("Thread "+Thread.currentThread().getId()+" disconnected from database. Retry writing in 2 min.");
 			try {
 				Thread.sleep(120000);
 			} catch (InterruptedException e1) {
@@ -144,9 +144,9 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 		//catch any exception; retry getting session
 		catch(Exception e)
 		{
-//			logger.error("An error occured in Thread "+Thread.currentThread().getId()+" while writing to database: \t"+e);
+			logger.error("An error occured in Thread "+Thread.currentThread().getId()+" while writing to database: \t"+e);
 			System.out.println(e);
-//			logger.debug("Thread "+Thread.currentThread().getId()+" failed to write to database. Retry writing in 2 min.");
+			logger.debug("Thread "+Thread.currentThread().getId()+" failed to write to database. Retry writing in 2 min.");
 			try {
 				Thread.sleep(120000);
 			} catch (InterruptedException e1) {
@@ -205,7 +205,7 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 	@Override
 	public void run() {
 		
-//		logger.debug("Thread "+Thread.currentThread().getId()+" started running");
+		logger.debug("Thread "+Thread.currentThread().getId()+" started running");
 		
 		List<DatabaseQuery> data;
 		//TODO: good condition?
@@ -230,7 +230,7 @@ public class DatabaseWriterNeo4j extends DatabaseWriter{
 		}
 		
 		System.out.println("Thread "+Thread.currentThread().getId()+" stopped running");
-//		logger.info("Thread "+Thread.currentThread().getId()+" stopped running");
+		logger.info("Thread "+Thread.currentThread().getId()+" stopped running");
     }
 	
 

@@ -1,6 +1,7 @@
 package database;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import GraphHandling.AttributePair;
@@ -17,6 +18,8 @@ public class DatabaseHandler {
 	private List<DatabaseQuery> cummulatedCommands;
 	private CommandBroker broker;
 	private DatabaseThreadController threadPool;
+	
+	//private List<String> indexListDone = new ArrayList<String>();
 	
 	//TODO: rename to DatabaseController?
 	public DatabaseHandler(DatabaseQueryBuilder language, CommandBroker broker, DatabaseThreadController pool)
@@ -84,11 +87,26 @@ public class DatabaseHandler {
 		addCommandsToBroker(list);
 	}
 	
+//	private void checkListed(String label)
+//	{
+//		if(!indexListDone.contains(label))
+//		{
+//			indexListDone.add(label);
+//			addCommandToBroker(language.createIndexCommand(label));
+//		}
+//	}
+	
 	public void writeVertex(String label, List<AttributePair> attributes)
 	{
 		//database.writeCommand(language.createVertexCommand(label, attributes));
 //		addVertexToBroker(language.createVertexCommand(label, attributes));
-		addCommandToBroker(language.createVertexCommand(label, attributes));
+		addCommandToBroker(language.createVertexCommand(new ArrayList<>(Arrays.asList(label)), attributes));
+//		checkListed(label);
+	}
+	
+	public void writeVertex(List<String> labels, List<AttributePair> attributes)
+	{
+		addCommandToBroker(language.createVertexCommand(labels, attributes));
 	}
 	
 	public void writeVertex(VertexData vertex)
@@ -96,12 +114,14 @@ public class DatabaseHandler {
 		//database.writeCommand(language.createVertexCommand(vertex));
 //		addVertexToBroker(language.createVertexCommand(vertex));
 		addCommandToBroker(language.createVertexCommand(vertex));
+//		checkListed(vertex.getLabel());
 	}
 	
 	public void writeVertexQueue(VertexData vertex)
 	{
 //		cummulatedVertexCommand.append(language.createVertexCommand(vertex));
 		cummulatedCommands.add(language.createVertexCommand(vertex));
+//		checkListed(vertex.getLabel());
 	}
 	
 	public void writeEdgeQueue(EdgeData edge)
@@ -131,11 +151,16 @@ public class DatabaseHandler {
 //		cummulatedEdgeCommand.setLength(0);
 //	}
 	
-	public void writeEdge(String label, List<AttributePair> attributes, long vertex1, long vertex2)
+	public void writeEdge(String label, List<AttributePair> attributes, VertexData vertex1, VertexData vertex2)
 	{
 		//database.writeCommand(language.createEdgeCommand(label, attributes, vertex1, vertex2));
 //		addEdgeToBroker(language.createEdgeCommand(label, attributes, vertex1, vertex2));
-		addCommandToBroker(language.createEdgeCommand(label, attributes, vertex1, vertex2));
+		addCommandToBroker(language.createEdgeCommand(new ArrayList<>(Arrays.asList(label)), attributes, vertex1, vertex2));
+	}
+	
+	public void writeEdge(List<String> labels, List<AttributePair> attributes, VertexData vertex1, VertexData vertex2)
+	{
+		addCommandToBroker(language.createEdgeCommand(labels, attributes, vertex1, vertex2));
 	}
 	
 	public void writeEdge(EdgeData edge)

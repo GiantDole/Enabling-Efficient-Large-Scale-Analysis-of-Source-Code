@@ -14,6 +14,7 @@ public class DatabaseQueryBuilderCypher implements DatabaseQueryBuilder{
 	
 	Map<Integer, String> vertexMap = new HashMap<>();
 
+
 //	@Override
 //	public String createVertexCommand(String label, List<AttributePair> attributes) {
 //		StringBuilder query = new StringBuilder();
@@ -29,9 +30,9 @@ public class DatabaseQueryBuilderCypher implements DatabaseQueryBuilder{
 //	}
 	
 	@Override
-	public DatabaseQuery createVertexCommand(String label, List<AttributePair> attributes) {
+	public DatabaseQuery createVertexCommand(List<String> labels, List<AttributePair> attributes) {
 		StringBuilder query = new StringBuilder();
-		query.append("CREATE (x: "+ label +" {");
+		query.append("CREATE (x "+ appendLabels(labels) +" {");
 		//query.append("CREATE ("+ extractLabel(label) +" {");
 		appendAttributes(query, attributes);
 		
@@ -41,7 +42,7 @@ public class DatabaseQueryBuilderCypher implements DatabaseQueryBuilder{
 		}
 		
 		DatabaseQueryNeo4j dq = new DatabaseQueryNeo4j(query.toString());
-		dq.addParam("label", label);
+		//dq.addParam("label", label);
 		setQueryMap(dq, attributes);
 		
 		return dq;
@@ -135,11 +136,13 @@ public class DatabaseQueryBuilderCypher implements DatabaseQueryBuilder{
 //	}
 	
 	@Override
-	public DatabaseQuery createEdgeCommand(String label, List<AttributePair> attributes, long vertex1, long vertex2) {
+	public DatabaseQuery createEdgeCommand(List<String> labels, List<AttributePair> attributes, VertexData vertex1, VertexData vertex2) {
 		StringBuilder query = new StringBuilder();
-		query.append("MATCH (alpha),(omega) WHERE alpha.UID=$vertex1 AND omega.UID=$vertex2 "
-				+ "CREATE (alpha)-[r: "+  label + " { "); //+vertex1+"' AND omega.UID='"+vertex2
+//		query.append("MATCH (alpha),(omega) WHERE alpha.UID=$vertex1 AND omega.UID=$vertex2 "
+//				+ "CREATE (alpha)-[r:"+  label + " { "); //+vertex1+"' AND omega.UID='"+vertex2
 				//+ "' CREATE (alpha)-[r:" + label + " { ");
+		query.append("MATCH (alpha"+appendLabels(vertex1.getLabels())+"),(omega"+appendLabels(vertex2.getLabels())+") WHERE alpha.UID=$vertex1 AND omega.UID=$vertex2 "
+				+ "CREATE (alpha)-[r"+  appendLabels(labels) + " { ");
 //		query.append(vertex1);
 //		query.append(" AND omega.UID=");
 //		query.append(vertex2);
@@ -154,13 +157,23 @@ public class DatabaseQueryBuilderCypher implements DatabaseQueryBuilder{
 		query.append(" }]->(omega);\n");
 		
 		DatabaseQueryNeo4j dq = new DatabaseQueryNeo4j(query.toString());
-		dq.addParam("vertex1", vertex1);
-		dq.addParam("vertex2", vertex2);
-		dq.addParam("label", label);
+		dq.addParam("vertex1", vertex1.getId());
+		dq.addParam("vertex2", vertex2.getId());
+		//dq.addParam("label", label);
 		
 		setQueryMap(dq, attributes);
-		
 		return dq;
+	}
+	
+	private String appendLabels(List<String> label)
+	{
+		String labels = "";
+		for(String l : label)
+		{
+			labels += ":"+l;
+		}
+		
+		return labels;
 	}
 	
 //	private void appendAttributes(StringBuilder query, List<AttributePair> attributes)
@@ -205,12 +218,19 @@ public class DatabaseQueryBuilderCypher implements DatabaseQueryBuilder{
 
 	@Override
 	public DatabaseQuery createVertexCommand(VertexData vertex) {
-		return createVertexCommand(vertex.getLabel(),vertex.getAttributePairs());
+		return createVertexCommand(vertex.getLabels(),vertex.getAttributePairs());
 	}
 
 	@Override
 	public DatabaseQuery createEdgeCommand(EdgeData edge) {
-		return createEdgeCommand(edge.getName(),edge.getAttributePairs(),edge.getFromID(),edge.getToID());
+		//return createEdgeCommand(edge.getName(),edge.getAttributePairs(),edge.getFromID(),edge.getToID());
+		return createEdgeCommand(edge.getLabels(),edge.getAttributePairs(),edge.getFrom(),edge.getTo());
+
+	}
+
+	@Override
+	public DatabaseQuery createIndexCommand(String label) {
+		return new DatabaseQueryNeo4j("CREATE index on :"+label+"(UID)");
 	}
 
 }

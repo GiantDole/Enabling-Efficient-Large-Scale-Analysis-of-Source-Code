@@ -26,6 +26,8 @@ public class DirectoryProcessor {
 	private Class<?> parserClass;
 	private DatabaseHandler handler;
 	private GraphWriter graphWriter;
+//	private int threadamount;
+//	private boolean created = false;
 
 	
 	public DirectoryProcessor(Config config)
@@ -62,6 +64,7 @@ public class DirectoryProcessor {
 			}
 			parser.parseDirectoryData(directories);
 			Graph g = parser.getGraph();
+			
 			
 			//if the previous Directory was a TopDirectory we will only write the Graph with no connection to any Directory
 			if(previousDirectory instanceof TopDirectory)
